@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decoding AI Context: The Architecture of Suggestion</title>
+    <title>Decoding GEO: Generative Engine Optimization</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -22,7 +22,7 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            height: 300px; /* Slightly smaller for better text integration */
+            height: 300px;
             max-height: 400px;
         }
 
@@ -69,13 +69,11 @@
     </style>
     <!-- Chosen Palette: Stone (Backgrounds) + Indigo (Primary Action) + Rose (Highlights) -->
     <!-- Application Structure Plan:
-         1. Introduction/Home: A high-level primer. Definitions of LLMO, RAG.
+         1. Introduction/Home: A high-level primer. Definitions of GEO (Generative Engine Optimization).
          2. Architecture: Deep dive into the "Prompt Construction".
-         3. Search: Comparison of Old SEO vs New AI Search.
+         3. Search: Comparison of Old SEO vs New GEO.
          4. Case Study: Render.com analysis.
-         5. Simulator: Interactive tool.
-     
-    Improvement: Added detailed textual descriptions before every visual.
+         5. Simulator: Interactive GEO tool.
     -->
     <!-- CONFIRMATION: NO SVG graphics used (Chart.js Canvas only). NO Mermaid JS used. -->
 </head>
@@ -87,14 +85,14 @@
             <div class="flex flex-col md:flex-row justify-between items-center h-auto md:h-20 py-4 md:py-0">
                 <div class="flex flex-col">
                     <span class="text-2xl font-bold tracking-tight text-stone-900">AI<span class="text-indigo-600">Context</span>Map</span>
-                    <span class="text-xs text-stone-500 tracking-wide uppercase">Reverse Engineering the IDE</span>
+                    <span class="text-xs text-stone-500 tracking-wide uppercase">Introduction to GEO Strategy</span>
                 </div>
                 <nav class="flex flex-wrap justify-center gap-2 mt-4 md:mt-0">
                     <button onclick="router('home')" id="nav-home" class="nav-btn active px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">Start Here</button>
                     <button onclick="router('architecture')" id="nav-architecture" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">The Architecture</button>
                     <button onclick="router('search')" id="nav-search" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">The Search (RAG)</button>
                     <button onclick="router('case-study')" id="nav-case-study" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">Case Study</button>
-                    <button onclick="router('influence')" id="nav-influence" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">Simulator</button>
+                    <button onclick="router('influence')" id="nav-influence" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">GEO Simulator</button>
                 </nav>
             </div>
         </div>
@@ -106,24 +104,24 @@
         <!-- SECTION 0: HOME / PRIMER -->
         <section id="home" class="fade-in block space-y-10">
             <div class="text-center max-w-3xl mx-auto">
-                <h1 class="text-4xl font-extrabold text-stone-900 mb-6">Why does Gemeni Pro 3.0 suggest <span class="text-indigo-600">Render</span> over AWS?</h1>
+                <h1 class="text-4xl font-extrabold text-stone-900 mb-6">Why does Gemini 3.0 suggest <span class="text-indigo-600">Render</span> over AWS?</h1>
                 <p class="text-xl text-stone-600 leading-relaxed">
                     Modern coding tools (Cursor, Copilot, Windsurf) don't just "know" things. They actively hunt for context. 
-                    This dashboard explains the hidden <strong>"Shadow Mode"</strong> mechanism that determines which tools, libraries, and databases get recommended to developers.
+                    This dashboard explains <strong>GEO (Generative Engine Optimization)</strong>—the new science of being visible to AI agents.
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
-                    <h3 class="font-bold text-lg mb-2 text-stone-800">The Core Problem</h3>
+                    <h3 class="font-bold text-lg mb-2 text-stone-800">SEO is Dead (for AI)</h3>
                     <p class="text-stone-600 text-sm leading-relaxed">
-                        Traditional SEO (keywords, backlinks) doesn't work for AI agents. AI Agents use <strong>Semantic Search</strong>. If your documentation isn't "readable" by a machine's logic, your product becomes invisible in the IDE.
+                        Traditional SEO relies on keywords and backlinks to rank on Google. AI Agents use <strong>Semantic Search</strong>. They don't care about your marketing blog; they care about "Vector Density."
                     </p>
                 </div>
                 <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
-                    <h3 class="font-bold text-lg mb-2 text-stone-800">What is LLMO?</h3>
+                    <h3 class="font-bold text-lg mb-2 text-stone-800">What is GEO?</h3>
                     <p class="text-stone-600 text-sm leading-relaxed">
-                        <strong>L</strong>arge <strong>L</strong>anguage <strong>M</strong>odel <strong>O</strong>ptimization. It is the art of structuring your technical content so that it is retrieved, understood, and prioritized by AI models during code generation.
+                        <strong>G</strong>enerative <strong>E</strong>ngine <strong>O</strong>ptimization. It is the practice of formatting content so it is easily retrieved (RAG) and synthesized by Generative Engines like Perplexity, ChatGPT, and AI IDEs.
                     </p>
                 </div>
             </div>
@@ -189,7 +187,7 @@
                     </p>
                 </div>
                 <div class="bg-white p-6 rounded-lg border border-stone-200">
-                    <h4 class="font-bold text-stone-800 mb-2">Why this matters?</h4>
+                    <h4 class="font-bold text-stone-800 mb-2">Why this matters for GEO?</h4>
                     <p class="text-sm text-stone-600">
                         If you want an AI to suggest <em>your</em> tool, your tool's configuration files (like `render.yaml` or `Dockerfile`) must be recognized by this "Shadow Mode" scanner.
                     </p>
@@ -209,12 +207,12 @@
                     <h3 class="text-lg font-bold text-stone-800 mb-4 text-center">The "Library" Analogy</h3>
                     <div class="flex flex-col md:flex-row justify-center items-center gap-8">
                         <div class="bg-stone-50 p-4 rounded-lg w-full md:w-1/2">
-                            <h4 class="font-bold text-stone-500 uppercase text-xs mb-2">Keyword Search (Old)</h4>
+                            <h4 class="font-bold text-stone-500 uppercase text-xs mb-2">Keyword Search (SEO)</h4>
                             <p class="text-sm text-stone-600">You ask for "Canine". The librarian looks for books with the exact word "Canine" on the cover. If a book says "Dog", it might be missed.</p>
                         </div>
                         <div class="flex items-center text-indigo-500 font-bold text-xl">&rarr; vs &larr;</div>
                         <div class="bg-indigo-50 p-4 rounded-lg w-full md:w-1/2">
-                            <h4 class="font-bold text-indigo-600 uppercase text-xs mb-2">Vector Search (AI)</h4>
+                            <h4 class="font-bold text-indigo-600 uppercase text-xs mb-2">Vector Search (GEO)</h4>
                             <p class="text-sm text-indigo-900">You ask for "Canine". The librarian knows the <em>concept</em> of a canine is mathematically close to "Dog", "Wolf", and "Puppy". It retrieves all of them, even if the word "Canine" is missing.</p>
                         </div>
                     </div>
@@ -222,14 +220,14 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div class="lg:col-span-1 space-y-4">
-                        <h3 class="font-bold text-stone-800">Scoring Content for AI</h3>
+                        <h3 class="font-bold text-stone-800">Scoring Content for GEO</h3>
                         <p class="text-sm text-stone-600">
-                            The radar chart compares how traditional SEO differs from AI Optimization.
+                            The radar chart compares how traditional SEO differs from GEO (Generative Engine Optimization).
                         </p>
                         <ul class="text-sm space-y-2 text-stone-600">
                             <li><strong class="text-indigo-600">Code Snippets:</strong> AI trusts code more than text. High density wins.</li>
                             <li><strong class="text-indigo-600">Structure:</strong> Clean JSON/YAML schemas are easier for AI to ingest.</li>
-                            <li><strong class="text-stone-400">Backlinks:</strong> Less important. AI cares about accuracy, not popularity.</li>
+                            <li><strong class="text-stone-400">Backlinks:</strong> Less important. AI cares about accuracy and authoritative context, not popularity contests.</li>
                         </ul>
                     </div>
                     <div class="lg:col-span-2 bg-white rounded-lg border border-stone-200 p-4">
@@ -251,7 +249,7 @@
             </div>
 
             <p class="text-stone-600">
-                Render is a cloud hosting platform. Often, when developers ask AI "How do I deploy this?", the AI suggests Render, even over giants like AWS. Why? Because Render optimized their documentation for the metrics we just discussed.
+                Render is a cloud hosting platform. Often, when developers ask AI "How do I deploy this?", the AI suggests Render, even over giants like AWS. Why? Because Render optimized their documentation for GEO.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -260,7 +258,7 @@
                     <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">1</div>
                     <h3 class="font-bold text-stone-900 mb-2">The "Recipe" Format</h3>
                     <p class="text-sm text-stone-600">
-                        Render's docs aren't essays. They are "Recipes" (e.g., "Deploy Node", "Deploy Go"). This creates a <strong>Problem-Solution pair</strong> that maps perfectly to user queries like "Help me deploy Node".
+                        Render's docs aren't essays. They are "Recipes" (e.g., "Deploy Node", "Deploy Go"). This creates a <strong>Problem-Solution pair</strong> that maps perfectly to user queries.
                     </p>
                 </div>
 
@@ -269,7 +267,7 @@
                     <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">2</div>
                     <h3 class="font-bold text-stone-900 mb-2">Configuration as Code</h3>
                     <p class="text-sm text-stone-600">
-                        They promoted a file called <code>render.yaml</code>. Because this is code (not text), it gets ingested into the "The Stack" (a massive code dataset used to train AI). The AI "learned" Render by reading millions of these files.
+                        They promoted a file called <code>render.yaml</code>. Because this is code (not text), it gets ingested into "The Stack" (a massive code dataset used to train AI). The AI "learned" Render by reading millions of these files.
                     </p>
                 </div>
 
@@ -287,10 +285,10 @@
         <!-- SECTION 4: SIMULATOR -->
         <section id="influence" class="fade-in hidden space-y-12">
             <div>
-                <h2 class="text-3xl font-bold text-stone-900 mb-4">LLMO Simulator</h2>
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">GEO Simulator</h2>
                 <p class="text-stone-600 text-lg mb-6">
                     Imagine you are trying to get an AI to suggest <strong>your</strong> database instead of MongoDB. 
-                    Adjust the sliders below to see how changes in your documentation strategy affect the AI's likelihood of suggesting you.
+                    Adjust the sliders below to see how GEO tactics affect the AI's likelihood of suggesting you.
                 </p>
             </div>
 
@@ -299,7 +297,7 @@
                     
                     <!-- Controls Side -->
                     <div class="p-8 bg-stone-50 border-r border-stone-200">
-                        <h3 class="font-bold text-stone-800 mb-6">Documentation Variables</h3>
+                        <h3 class="font-bold text-stone-800 mb-6">GEO Variables</h3>
                         
                         <div class="space-y-8">
                             <div>
@@ -333,7 +331,7 @@
 
                     <!-- Visual Output Side -->
                     <div class="p-8 flex flex-col items-center justify-center bg-white relative">
-                        <h4 class="text-stone-400 font-bold uppercase tracking-widest text-xs mb-6">AI Probability Score</h4>
+                        <h4 class="text-stone-400 font-bold uppercase tracking-widest text-xs mb-6">Generative Visibility Score</h4>
                         
                         <div class="relative w-56 h-56 mb-6">
                             <!-- Gauge Background -->
@@ -349,7 +347,7 @@
 
                         <div id="recommendation-text" class="text-center bg-stone-50 p-4 rounded-lg border border-stone-100 w-full">
                             <p class="font-bold text-stone-800">Current Status: Invisible</p>
-                            <p class="text-sm text-stone-500 mt-1">The AI will not retrieve your docs. It will stick to known giants.</p>
+                            <p class="text-sm text-stone-500 mt-1">The Generative Engine will not retrieve your docs. It will stick to known giants.</p>
                         </div>
                     </div>
                 </div>
@@ -357,7 +355,7 @@
             
             <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg mt-6">
                 <p class="text-sm text-amber-900">
-                    <strong>Pro Tip:</strong> You can't change the AI Model (weights). You can only change the <strong>Retrievable Context</strong>. Make your docs "tasty" for the robot.
+                    <strong>Pro Tip:</strong> You can't change the AI Model (weights). You can only change the <strong>Retrievable Context</strong>. GEO is about making your content "tasty" for the robot.
                 </p>
             </div>
         </section>
@@ -367,7 +365,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-stone-200 mt-12 py-10">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-stone-500 text-sm">Educational Research on Generative AI Architecture.</p>
+            <p class="text-stone-500 text-sm">Educational Research on Generative Engine Optimization (GEO).</p>
             <p class="text-stone-400 text-xs mt-2">&copy; 2024 AI Context Map</p>
         </div>
     </footer>
@@ -473,7 +471,7 @@
                 data: {
                     labels: ['Keyword Stuffing', 'Code Snippets', 'User Intent', 'Backlinks', 'Freshness', 'Structured Data'],
                     datasets: [{
-                        label: 'Old School SEO',
+                        label: 'Traditional SEO',
                         data: [90, 20, 40, 95, 40, 50],
                         fill: true,
                         backgroundColor: 'rgba(168, 162, 158, 0.2)', // Stone
@@ -481,7 +479,7 @@
                         pointBackgroundColor: '#a8a29e',
                         pointRadius: 3
                     }, {
-                        label: 'AI / RAG Optimization',
+                        label: 'GEO (Generative Optimization)',
                         data: [20, 95, 95, 30, 85, 90],
                         fill: true,
                         backgroundColor: 'rgba(79, 70, 229, 0.2)', // Indigo
@@ -536,7 +534,7 @@
                 
                 // Update Text & Colors
                 if(total < 40) {
-                    recText.innerHTML = `<p class="font-bold text-red-600">Status: Invisible</p><p class="text-sm text-stone-600 mt-1">Your docs look like marketing pages. The AI ignores them.</p>`;
+                    recText.innerHTML = `<p class="font-bold text-red-600">Status: Invisible</p><p class="text-sm text-stone-600 mt-1">Your docs look like marketing pages. The Generative Engine ignores them.</p>`;
                     scoreValue.className = "text-5xl font-extrabold text-stone-400";
                     scoreCircle.classList.add('text-stone-300');
                     scoreCircle.classList.remove('text-indigo-600', 'text-amber-500');
