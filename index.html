@@ -3,204 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Context Engine: Architecture & Influence Research</title>
+    <title>Decoding AI Context: The Architecture of Suggestion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f5f5f4; /* Stone-100 */
+            background-color: #fafaf9; /* Stone-50 */
             color: #1c1917; /* Stone-900 */
         }
 
-        /* Chart Container Styling - MANDATORY */
+        /* Chart Container Styling */
         .chart-container {
             position: relative;
             width: 100%;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            height: 350px;
+            height: 300px; /* Slightly smaller for better text integration */
             max-height: 400px;
         }
 
         @media (min-width: 768px) {
             .chart-container {
-                height: 400px;
+                height: 350px;
             }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        /* Navigation Active State */
+        .nav-btn {
+            border-bottom: 2px solid transparent;
         }
-        ::-webkit-scrollbar-track {
-            background: #e7e5e4;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #a8a29e;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #78716c;
-        }
-
         .nav-btn.active {
-            background-color: #44403c; /* Stone-700 */
-            color: #ffffff;
+            border-bottom-color: #4f46e5; /* Indigo-600 */
+            color: #111827;
+            background-color: #f3f4f6;
         }
         
+        /* Animation */
         .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.4s ease-out forwards;
         }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .step-card {
-            transition: all 0.3s ease;
+        /* Info Card Styling */
+        .info-card {
+            border-left: 4px solid #4f46e5;
+            background: #eef2ff;
         }
-        .step-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        
+        /* Code snippet style */
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #e5e7eb;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #be185d;
         }
     </style>
-    <!-- Chosen Palette: Warm Neutrals (Stone) with Professional Slate and Amber/Indigo Accents -->
-    <!-- Application Structure Plan: 
-         The app is designed as a 'Research Dashboard'. 
-         1. 'The Architecture': Explains the 'How' (Local Context vs. Model). 
-         2. 'The Search Mechanism': Explains RAG and Vector DBs.
-         3. 'The Render.com Case': Analyzes the specific success story requested.
-         4. 'Influence Simulator': An interactive tool allowing the user to adjust variables to see how they can influence AI suggestions (The 'MongoDB' displacement request).
-         This structure moves from theory (Understanding) to case study (Proof) to application (Action).
+    <!-- Chosen Palette: Stone (Backgrounds) + Indigo (Primary Action) + Rose (Highlights) -->
+    <!-- Application Structure Plan:
+         1. Introduction/Home: A high-level primer. Definitions of LLMO, RAG.
+         2. Architecture: Deep dive into the "Prompt Construction".
+         3. Search: Comparison of Old SEO vs New AI Search.
+         4. Case Study: Render.com analysis.
+         5. Simulator: Interactive tool.
+     
+    Improvement: Added detailed textual descriptions before every visual.
     -->
-    <!-- Visualization & Content Choices:
-         1. Architecture: HTML Flowchart with JS highlighting (Goal: Organize/Inform). 
-         2. Data Sources: Chart.js Doughnut (Goal: Inform/Compare context weights).
-         3. Search Logic: Chart.js Radar (Goal: Compare Keyword vs Vector search).
-         4. Influence Simulator: Interactive Sliders + Dynamic Text (Goal: Change/Result).
-         5. Case Study: Comparative Cards (Goal: Analyze).
-         Justification: Canvas charts used for flexible data representation. Interactive HTML elements used for process flows. NO SVG/Mermaid.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used (Chart.js Canvas only). NO Mermaid JS used. -->
 </head>
 <body class="min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-white border-b border-stone-200 sticky top-0 z-50">
+    <header class="bg-white border-b border-stone-200 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <span class="text-2xl font-bold tracking-tight text-stone-800">AI<span class="text-indigo-600">Context</span>Map</span>
+            <div class="flex flex-col md:flex-row justify-between items-center h-auto md:h-20 py-4 md:py-0">
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold tracking-tight text-stone-900">AI<span class="text-indigo-600">Context</span>Map</span>
+                    <span class="text-xs text-stone-500 tracking-wide uppercase">Reverse Engineering the IDE</span>
                 </div>
-                <nav class="hidden md:flex space-x-2">
-                    <button onclick="router('architecture')" id="nav-architecture" class="nav-btn active px-4 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-200 transition">Architecture</button>
-                    <button onclick="router('search')" id="nav-search" class="nav-btn px-4 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-200 transition">The Web Search</button>
-                    <button onclick="router('case-study')" id="nav-case-study" class="nav-btn px-4 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-200 transition">Case Study: Render</button>
-                    <button onclick="router('influence')" id="nav-influence" class="nav-btn px-4 py-2 rounded-md text-sm font-medium text-stone-600 hover:bg-stone-200 transition">Influence Strategy</button>
+                <nav class="flex flex-wrap justify-center gap-2 mt-4 md:mt-0">
+                    <button onclick="router('home')" id="nav-home" class="nav-btn active px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">Start Here</button>
+                    <button onclick="router('architecture')" id="nav-architecture" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">The Architecture</button>
+                    <button onclick="router('search')" id="nav-search" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">The Search (RAG)</button>
+                    <button onclick="router('case-study')" id="nav-case-study" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">Case Study</button>
+                    <button onclick="router('influence')" id="nav-influence" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition rounded-t-md">Simulator</button>
                 </nav>
-                <!-- Mobile Menu Button (Simplified for this demo) -->
-                <div class="md:hidden">
-                    <button class="text-stone-500 hover:text-stone-900 focus:outline-none">
-                        ☰
-                    </button>
-                </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+
+        <!-- SECTION 0: HOME / PRIMER -->
+        <section id="home" class="fade-in block space-y-10">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-4xl font-extrabold text-stone-900 mb-6">Why does Gemeni Pro 3.0 suggest <span class="text-indigo-600">Render</span> over AWS?</h1>
+                <p class="text-xl text-stone-600 leading-relaxed">
+                    Modern coding tools (Cursor, Copilot, Windsurf) don't just "know" things. They actively hunt for context. 
+                    This dashboard explains the hidden <strong>"Shadow Mode"</strong> mechanism that determines which tools, libraries, and databases get recommended to developers.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                    <h3 class="font-bold text-lg mb-2 text-stone-800">The Core Problem</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Traditional SEO (keywords, backlinks) doesn't work for AI agents. AI Agents use <strong>Semantic Search</strong>. If your documentation isn't "readable" by a machine's logic, your product becomes invisible in the IDE.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                    <h3 class="font-bold text-lg mb-2 text-stone-800">What is LLMO?</h3>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        <strong>L</strong>arge <strong>L</strong>anguage <strong>M</strong>odel <strong>O</strong>ptimization. It is the art of structuring your technical content so that it is retrieved, understood, and prioritized by AI models during code generation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50 rounded-lg p-6 text-center">
+                <p class="text-indigo-900 font-medium mb-4">Navigate through the tabs above to decode the system.</p>
+                <button onclick="router('architecture')" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition shadow-lg transform hover:-translate-y-1">Start with The Architecture &rarr;</button>
+            </div>
+        </section>
 
         <!-- SECTION 1: ARCHITECTURE -->
-        <section id="architecture" class="fade-in block space-y-8">
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-stone-200">
-                <h1 class="text-3xl font-bold text-stone-900 mb-4">How AI IDEs "Think": The Hybrid Context</h1>
-                <p class="text-stone-600 mb-6 text-lg leading-relaxed">
-                    Modern IDEs like Cursor or Copilot do not "learn" in real-time in the traditional sense. They utilize a hybrid architecture. 
-                    They combine a <strong>Frozen Pre-trained Model</strong> (the base intelligence) with a highly dynamic <strong>Context Window</strong>. 
-                    Understanding this separation is key to manipulating the output.
+        <section id="architecture" class="fade-in hidden space-y-12">
+            <div>
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">The "Brain" vs. The "Note"</h2>
+                <p class="text-stone-600 text-lg mb-6">
+                    A common misconception is that the AI "learns" from your code in real-time. It doesn't. 
+                    The Model is frozen. To give you a relevant answer, the IDE constructs a temporary "Note" (the Prompt) containing specifically selected information.
                 </p>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                    <!-- Text Context -->
-                    <div class="space-y-4">
-                        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r">
-                            <h3 class="font-bold text-indigo-900">1. Local "Shadow" Mode</h3>
-                            <p class="text-sm text-indigo-800">The IDE constantly indexes your open files, git history, and cursor position. It creates a "prompt" behind the scenes that includes relevant code snippets.</p>
+                
+                <div class="bg-white rounded-xl border border-stone-200 overflow-hidden shadow-sm">
+                    <div class="bg-stone-50 border-b border-stone-200 px-6 py-4">
+                        <h3 class="font-bold text-stone-700">Visualizing the Context Window</h3>
+                    </div>
+                    <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <p class="text-stone-600 mb-4 text-sm">
+                                The chart shows what actually goes into the AI's "short-term memory" before it answers you. Notice how much weight is given to <strong>Local Context</strong> (your open tabs) and <strong>RAG</strong> (Retrieved Docs).
+                            </p>
+                            <ul class="space-y-3 text-sm text-stone-600">
+                                <li class="flex items-start">
+                                    <span class="w-3 h-3 rounded-full bg-stone-300 mt-1 mr-2"></span>
+                                    <span><strong>Base Model (40%):</strong> General knowledge of Python, JS, English grammar. Frozen in time.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-3 h-3 rounded-full bg-indigo-600 mt-1 mr-2"></span>
+                                    <span><strong>Shadow Mode (35%):</strong> The IDE secretly reads your cursor position, open files, and git history to guess intent.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="w-3 h-3 rounded-full bg-amber-500 mt-1 mr-2"></span>
+                                    <span><strong>RAG / Retrieval (25%):</strong> External info fetched from the web or documentation to fill knowledge gaps.</span>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r">
-                            <h3 class="font-bold text-amber-900">2. RAG (Retrieval Augmented Generation)</h3>
-                            <p class="text-sm text-amber-800">When local context isn't enough, the system queries an external Vector Database (documentation) or the Web. This data is injected into the prompt <em>before</em> the AI answers.</p>
-                        </div>
-                        <div class="bg-stone-100 border-l-4 border-stone-500 p-4 rounded-r">
-                            <h3 class="font-bold text-stone-900">3. The Inference</h3>
-                            <p class="text-sm text-stone-700">The model receives: [System Instructions] + [Retrieved Docs] + [Local Code] + [User Query]. It generates a prediction based on this packet.</p>
+                        <div class="bg-stone-50 rounded-lg p-2">
+                            <div class="chart-container">
+                                <canvas id="architectureChart"></canvas>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Viz: Context Weight -->
-                    <div class="bg-stone-50 rounded-lg p-4 border border-stone-200">
-                        <h4 class="text-center text-sm font-semibold text-stone-500 mb-2">Impact on Final Suggestion</h4>
-                        <div class="chart-container">
-                            <canvas id="architectureChart"></canvas>
-                        </div>
-                        <p class="text-xs text-center text-stone-400 mt-2">Click chart segments to see details.</p>
-                    </div>
+            <!-- Deep Dive Block -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="info-card p-6 rounded-r-lg">
+                    <h4 class="font-bold text-indigo-900 mb-2">Example: The "Shadow Mode"</h4>
+                    <p class="text-sm text-indigo-800 mb-3"><strong>User Types:</strong> "Connect to db"</p>
+                    <p class="text-sm text-indigo-800">
+                        <strong>IDE "Shadow" Action:</strong> The IDE scans your project. It sees a file named <code>mongo_schema.js</code>. 
+                        It secretly adds: <em>"User is likely using MongoDB based on file structure."</em> to the prompt. 
+                        <br><br>
+                        <strong>Result:</strong> The AI suggests <code>mongoose.connect()</code> instead of SQL, without you asking.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-lg border border-stone-200">
+                    <h4 class="font-bold text-stone-800 mb-2">Why this matters?</h4>
+                    <p class="text-sm text-stone-600">
+                        If you want an AI to suggest <em>your</em> tool, your tool's configuration files (like `render.yaml` or `Dockerfile`) must be recognized by this "Shadow Mode" scanner.
+                    </p>
                 </div>
             </div>
         </section>
 
         <!-- SECTION 2: THE SEARCH (RAG) -->
-        <section id="search" class="fade-in hidden space-y-8">
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-stone-200">
-                <h2 class="text-3xl font-bold text-stone-900 mb-4">The Web Search Mechanism</h2>
-                <p class="text-stone-600 mb-6">
-                    When you ask "How do I deploy?", the IDE doesn't browse Google like a human. It performs a <strong>Semantic Vector Search</strong>. 
-                    It converts your query into mathematical coordinates (embeddings) and finds "nearest neighbors" in its indexed documentation.
+        <section id="search" class="fade-in hidden space-y-12">
+            <div>
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">RAG: The AI's Search Engine</h2>
+                <p class="text-stone-600 text-lg mb-6">
+                    When the IDE doesn't know the answer, it searches. But it doesn't use Keywords (like Google 2010). It uses <strong>Vector Embeddings</strong>.
                 </p>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- Comparison Table -->
-                    <div class="overflow-hidden border border-stone-200 rounded-lg">
-                        <table class="min-w-full divide-y divide-stone-200">
-                            <thead class="bg-stone-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Feature</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Old School (SEO)</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-indigo-600 uppercase tracking-wider">AI Search (RAG)</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-stone-200">
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-stone-900">Method</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-500">Keyword Matching</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-500">Vector Embeddings</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-stone-900">Priority</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-500">Backlinks & Clicks</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-500">Semantic Density & Code</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-stone-900">Influence</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-500">Meta Tags</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-stone-500">Quality of Snippets</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="p-4 bg-indigo-50 text-indigo-800 text-sm">
-                            <strong>Key Insight:</strong> AI search penalizes "marketing fluff." It rewards dense, structurally sound technical information because that vector is "closer" to the user's code-based query.
+                <div class="bg-white p-8 rounded-xl border border-stone-200 shadow-sm mb-8">
+                    <h3 class="text-lg font-bold text-stone-800 mb-4 text-center">The "Library" Analogy</h3>
+                    <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                        <div class="bg-stone-50 p-4 rounded-lg w-full md:w-1/2">
+                            <h4 class="font-bold text-stone-500 uppercase text-xs mb-2">Keyword Search (Old)</h4>
+                            <p class="text-sm text-stone-600">You ask for "Canine". The librarian looks for books with the exact word "Canine" on the cover. If a book says "Dog", it might be missed.</p>
+                        </div>
+                        <div class="flex items-center text-indigo-500 font-bold text-xl">&rarr; vs &larr;</div>
+                        <div class="bg-indigo-50 p-4 rounded-lg w-full md:w-1/2">
+                            <h4 class="font-bold text-indigo-600 uppercase text-xs mb-2">Vector Search (AI)</h4>
+                            <p class="text-sm text-indigo-900">You ask for "Canine". The librarian knows the <em>concept</em> of a canine is mathematically close to "Dog", "Wolf", and "Puppy". It retrieves all of them, even if the word "Canine" is missing.</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Radar Chart -->
-                    <div class="bg-stone-50 rounded-lg p-4 border border-stone-200">
-                        <h4 class="text-center text-sm font-semibold text-stone-500 mb-2">Content Scoring Criteria</h4>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1 space-y-4">
+                        <h3 class="font-bold text-stone-800">Scoring Content for AI</h3>
+                        <p class="text-sm text-stone-600">
+                            The radar chart compares how traditional SEO differs from AI Optimization.
+                        </p>
+                        <ul class="text-sm space-y-2 text-stone-600">
+                            <li><strong class="text-indigo-600">Code Snippets:</strong> AI trusts code more than text. High density wins.</li>
+                            <li><strong class="text-indigo-600">Structure:</strong> Clean JSON/YAML schemas are easier for AI to ingest.</li>
+                            <li><strong class="text-stone-400">Backlinks:</strong> Less important. AI cares about accuracy, not popularity.</li>
+                        </ul>
+                    </div>
+                    <div class="lg:col-span-2 bg-white rounded-lg border border-stone-200 p-4">
                         <div class="chart-container">
                             <canvas id="ragChart"></canvas>
                         </div>
@@ -209,132 +241,147 @@
             </div>
         </section>
 
-        <!-- SECTION 3: RENDER.COM CASE STUDY -->
-        <section id="case-study" class="fade-in hidden space-y-8">
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-stone-200">
-                <div class="border-b border-stone-100 pb-4 mb-4">
-                    <h2 class="text-3xl font-bold text-stone-900">Case Study: The Render.com Effect</h2>
-                    <p class="text-stone-500 mt-2">How Render managed to become the "Default Suggestion" for deployment in many AI models.</p>
+        <!-- SECTION 3: CASE STUDY -->
+        <section id="case-study" class="fade-in hidden space-y-10">
+            <div class="border-l-4 border-indigo-600 pl-6">
+                <h2 class="text-3xl font-bold text-stone-900">The "Render.com" Effect</h2>
+                <p class="text-stone-600 mt-2 text-lg">
+                    How a cloud provider became a top AI suggestion by speaking the machine's language.
+                </p>
+            </div>
+
+            <p class="text-stone-600">
+                Render is a cloud hosting platform. Often, when developers ask AI "How do I deploy this?", the AI suggests Render, even over giants like AWS. Why? Because Render optimized their documentation for the metrics we just discussed.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition">
+                    <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">1</div>
+                    <h3 class="font-bold text-stone-900 mb-2">The "Recipe" Format</h3>
+                    <p class="text-sm text-stone-600">
+                        Render's docs aren't essays. They are "Recipes" (e.g., "Deploy Node", "Deploy Go"). This creates a <strong>Problem-Solution pair</strong> that maps perfectly to user queries like "Help me deploy Node".
+                    </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-stone-50 p-6 rounded-lg border border-stone-200 step-card">
-                        <div class="text-2xl mb-2">📄</div>
-                        <h3 class="font-bold text-stone-800 mb-2">Semantic Structure</h3>
-                        <p class="text-sm text-stone-600">Render's docs use highly structured Markdown/HTML. Headers match common user intents ("How to deploy Node," not "Our Amazing Platform"). This maps perfectly to user queries.</p>
-                    </div>
-                    <div class="bg-stone-50 p-6 rounded-lg border border-stone-200 step-card">
-                        <div class="text-2xl mb-2">💻</div>
-                        <h3 class="font-bold text-stone-800 mb-2">Code-First Context</h3>
-                        <p class="text-sm text-stone-600">Their pages are dense with <code>YAML</code> examples (render.yaml). AI models prioritize content that looks like the solution they are trying to generate.</p>
-                    </div>
-                    <div class="bg-stone-50 p-6 rounded-lg border border-stone-200 step-card">
-                        <div class="text-2xl mb-2">🔗</div>
-                        <h3 class="font-bold text-stone-800 mb-2">The "Integration" Vector</h3>
-                        <p class="text-sm text-stone-600">Render aggressively documented integrations with popular frameworks. When a user asks "Deploy Rails," Render's vector is mathematically close to "Rails" due to frequent co-occurrence.</p>
-                    </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition">
+                    <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">2</div>
+                    <h3 class="font-bold text-stone-900 mb-2">Configuration as Code</h3>
+                    <p class="text-sm text-stone-600">
+                        They promoted a file called <code>render.yaml</code>. Because this is code (not text), it gets ingested into the "The Stack" (a massive code dataset used to train AI). The AI "learned" Render by reading millions of these files.
+                    </p>
                 </div>
 
-                <!-- Interactive Analysis -->
-                <div class="bg-indigo-900 rounded-xl p-8 text-white relative overflow-hidden">
-                    <div class="relative z-10">
-                        <h3 class="text-xl font-bold mb-4">The "Shadow Mode" Winner</h3>
-                        <p class="mb-6 opacity-90">
-                            When an IDE sees a `package.json` file, it looks for deployment cues. Render's documentation strategy ensured that their configuration patterns were ingested into the <span class="text-indigo-300 font-bold">Common Crawl</span> and <span class="text-indigo-300 font-bold">The Stack</span> datasets.
-                        </p>
-                        <div class="flex flex-wrap gap-4">
-                            <span class="bg-white/10 px-3 py-1 rounded-full text-sm">High Domain Authority</span>
-                            <span class="bg-white/10 px-3 py-1 rounded-full text-sm">Clear Schema Markup</span>
-                            <span class="bg-white/10 px-3 py-1 rounded-full text-sm">Solution-Oriented</span>
-                        </div>
-                    </div>
-                    <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-indigo-500 rounded-full opacity-20 blur-3xl"></div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 hover:shadow-md transition">
+                    <div class="h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold mb-4">3</div>
+                    <h3 class="font-bold text-stone-900 mb-2">Integration Vectors</h3>
+                    <p class="text-sm text-stone-600">
+                        Render explicitly linked their name to popular frameworks in docs. "Django on Render". "Rails on Render". This physically moves their "Vector" closer to the "Django" vector in the AI's math.
+                    </p>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 4: INFLUENCE STRATEGY (SIMULATOR) -->
-        <section id="influence" class="fade-in hidden space-y-8">
-            <div class="bg-white rounded-xl shadow-sm p-6 border border-stone-200">
-                <h2 class="text-3xl font-bold text-stone-900 mb-2">LLM Optimization (LLMO) Simulator</h2>
-                <p class="text-stone-600 mb-6">
-                    You asked: <em>"If MongoDB is suggested, how can I make them suggest my database?"</em><br>
-                    You cannot change the model weights. You MUST change the <strong>Retrievable Context</strong>. Use this simulator to see how optimizing your external content affects AI Probability.
+        <!-- SECTION 4: SIMULATOR -->
+        <section id="influence" class="fade-in hidden space-y-12">
+            <div>
+                <h2 class="text-3xl font-bold text-stone-900 mb-4">LLMO Simulator</h2>
+                <p class="text-stone-600 text-lg mb-6">
+                    Imagine you are trying to get an AI to suggest <strong>your</strong> database instead of MongoDB. 
+                    Adjust the sliders below to see how changes in your documentation strategy affect the AI's likelihood of suggesting you.
                 </p>
+            </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Controls -->
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium text-stone-700 mb-1">Documentation Code Density</label>
-                            <input type="range" min="0" max="100" value="30" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer" id="slider-code">
-                            <p class="text-xs text-stone-500 mt-1">Ratio of code blocks to marketing text.</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-stone-700 mb-1">Semantic Comparison Frequency</label>
-                            <input type="range" min="0" max="100" value="20" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer" id="slider-comparison">
-                            <p class="text-xs text-stone-500 mt-1">How often you objectively compare "MyDB vs MongoDB" in docs.</p>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-stone-700 mb-1">Problem-Solution Formatting</label>
-                            <input type="range" min="0" max="100" value="40" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer" id="slider-structure">
-                            <p class="text-xs text-stone-500 mt-1">Using strict "How to X" headers and steps.</p>
-                        </div>
-                    </div>
-
-                    <!-- Result Panel -->
-                    <div class="bg-stone-50 rounded-xl p-6 border border-stone-200 flex flex-col justify-center items-center text-center">
-                        <h4 class="text-stone-500 font-medium uppercase tracking-wider text-xs mb-4">Suggestion Probability</h4>
+            <div class="bg-white rounded-2xl shadow-lg border border-stone-200 overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    
+                    <!-- Controls Side -->
+                    <div class="p-8 bg-stone-50 border-r border-stone-200">
+                        <h3 class="font-bold text-stone-800 mb-6">Documentation Variables</h3>
                         
-                        <div class="relative w-48 h-48 mb-4">
-                            <!-- Simple CSS Gauge -->
-                            <svg class="w-full h-full" viewBox="0 0 36 36">
-                                <path class="text-stone-200" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.8" />
-                                <path id="score-circle" class="text-indigo-600 transition-all duration-700 ease-out" stroke-dasharray="30, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.8" />
-                            </svg>
-                            <div class="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center">
-                                <span id="score-value" class="text-4xl font-bold text-indigo-900">30%</span>
+                        <div class="space-y-8">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <label class="font-semibold text-sm text-stone-700">Code Density Ratio</label>
+                                    <span class="text-xs bg-stone-200 px-2 py-1 rounded text-stone-600">Impact: High</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="30" class="w-full h-2 bg-stone-300 rounded-lg appearance-none cursor-pointer accent-indigo-600" id="slider-code">
+                                <p class="text-xs text-stone-500 mt-2">Amount of copy-pasteable code blocks vs. marketing fluff.</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <label class="font-semibold text-sm text-stone-700">Comparative Terminology</label>
+                                    <span class="text-xs bg-stone-200 px-2 py-1 rounded text-stone-600">Impact: Medium</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="20" class="w-full h-2 bg-stone-300 rounded-lg appearance-none cursor-pointer accent-indigo-600" id="slider-comparison">
+                                <p class="text-xs text-stone-500 mt-2">Frequency of mentioning competitors (e.g., "Unlike MongoDB..."). Helps map your vector to theirs.</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <label class="font-semibold text-sm text-stone-700">Structured Formatting</label>
+                                    <span class="text-xs bg-stone-200 px-2 py-1 rounded text-stone-600">Impact: Low-Med</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="40" class="w-full h-2 bg-stone-300 rounded-lg appearance-none cursor-pointer accent-indigo-600" id="slider-structure">
+                                <p class="text-xs text-stone-500 mt-2">Use of clear headers, steps, and bullet points (easy for RAG to parse).</p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Visual Output Side -->
+                    <div class="p-8 flex flex-col items-center justify-center bg-white relative">
+                        <h4 class="text-stone-400 font-bold uppercase tracking-widest text-xs mb-6">AI Probability Score</h4>
                         
-                        <div id="recommendation-text" class="text-sm font-medium text-stone-700">
-                            AI is likely to ignore your DB.
+                        <div class="relative w-56 h-56 mb-6">
+                            <!-- Gauge Background -->
+                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                                <path class="text-stone-100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2" />
+                                <path id="score-circle" class="text-indigo-600 transition-all duration-700 ease-out" stroke-dasharray="30, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span id="score-value" class="text-5xl font-extrabold text-stone-800">30%</span>
+                                <span class="text-xs text-stone-400 mt-1">Confidence</span>
+                            </div>
+                        </div>
+
+                        <div id="recommendation-text" class="text-center bg-stone-50 p-4 rounded-lg border border-stone-100 w-full">
+                            <p class="font-bold text-stone-800">Current Status: Invisible</p>
+                            <p class="text-sm text-stone-500 mt-1">The AI will not retrieve your docs. It will stick to known giants.</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Tactic List -->
-                <div class="mt-8 bg-amber-50 border border-amber-200 rounded-lg p-5">
-                    <h4 class="font-bold text-amber-900 mb-2">Tactical Guide: The "Cita" Method</h4>
-                    <ul class="list-disc list-inside space-y-2 text-sm text-amber-800">
-                        <li><strong>Create "Landing Pages" for Robots:</strong> Write comparison articles titled "Migrating from MongoDB to MyDB" with code samples side-by-side.</li>
-                        <li><strong>Pollute the Vector Space (Ethically):</strong> Ensure your unique features are described using the same terminology as the incumbent (MongoDB) so the vectors are close, then distinguish with "Better Performance."</li>
-                        <li><strong>Feed the Crawler:</strong> Submit your sitemaps to Common Crawl and ensure your `robots.txt` allows AI bots (GPTBot).</li>
-                    </ul>
-                </div>
+            </div>
+            
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg mt-6">
+                <p class="text-sm text-amber-900">
+                    <strong>Pro Tip:</strong> You can't change the AI Model (weights). You can only change the <strong>Retrievable Context</strong>. Make your docs "tasty" for the robot.
+                </p>
             </div>
         </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="bg-stone-800 text-stone-400 py-8">
+    <footer class="bg-white border-t border-stone-200 mt-12 py-10">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-sm">Research Synthesis generated for Educational Purposes.</p>
+            <p class="text-stone-500 text-sm">Educational Research on Generative AI Architecture.</p>
+            <p class="text-stone-400 text-xs mt-2">&copy; 2024 AI Context Map</p>
         </div>
     </footer>
 
     <script>
         // State Management
         const state = {
-            currentView: 'architecture',
+            currentView: 'home', // Changed default to 'home'
             score: 30
         };
 
         // DOM Elements
         const views = {
+            home: document.getElementById('home'),
             architecture: document.getElementById('architecture'),
             search: document.getElementById('search'),
             'case-study': document.getElementById('case-study'),
@@ -342,6 +389,7 @@
         };
 
         const navButtons = {
+            home: document.getElementById('nav-home'),
             architecture: document.getElementById('nav-architecture'),
             search: document.getElementById('nav-search'),
             'case-study': document.getElementById('nav-case-study'),
@@ -352,25 +400,26 @@
         function router(viewName) {
             state.currentView = viewName;
             
-            // Update UI
+            // Update UI Views
             Object.keys(views).forEach(key => {
+                const el = views[key];
                 if (key === viewName) {
-                    views[key].classList.remove('hidden');
-                    // Trigger reflow/animation
-                    views[key].classList.remove('fade-in');
-                    void views[key].offsetWidth; 
-                    views[key].classList.add('fade-in');
+                    el.classList.remove('hidden');
+                    el.classList.remove('fade-in');
+                    void el.offsetWidth; // Trigger reflow
+                    el.classList.add('fade-in');
                 } else {
-                    views[key].classList.add('hidden');
+                    el.classList.add('hidden');
                 }
             });
 
-            // Update Nav State
+            // Update Nav Buttons
             Object.keys(navButtons).forEach(key => {
+                const btn = navButtons[key];
                 if (key === viewName) {
-                    navButtons[key].classList.add('active');
+                    btn.classList.add('active');
                 } else {
-                    navButtons[key].classList.remove('active');
+                    btn.classList.remove('active');
                 }
             });
 
@@ -388,10 +437,10 @@
             archChart = new Chart(ctxArch, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Base Model (Pre-training)', 'Local Context (Shadow Mode)', 'RAG (Web/Docs)'],
+                    labels: ['Base Model (Frozen Knowledge)', 'Local Context (Shadow Mode)', 'RAG (Retrieved Docs)'],
                     datasets: [{
                         data: [40, 35, 25],
-                        backgroundColor: ['#e7e5e4', '#4f46e5', '#f59e0b'],
+                        backgroundColor: ['#d6d3d1', '#4f46e5', '#f59e0b'], // Stone-300, Indigo-600, Amber-500
                         borderWidth: 0,
                         hoverOffset: 10
                     }]
@@ -400,16 +449,16 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } },
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter', size: 11 } } },
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
                                     const labels = [
-                                        "General knowledge, grammar, basic code structure.",
-                                        "Variable names, current project style, open tabs.",
-                                        "Specific library syntax, updated APIs, 'How-to' guides."
+                                        " What it learned during training (Grammar, basic logic).",
+                                        " Active files, cursor location, project structure.",
+                                        " Information fetched from web/docs to answer specifics."
                                     ];
-                                    return ' ' + labels[context.dataIndex];
+                                    return labels[context.dataIndex];
                                 }
                             }
                         }
@@ -422,21 +471,23 @@
             ragChart = new Chart(ctxRag, {
                 type: 'radar',
                 data: {
-                    labels: ['Keyword Density', 'Code Snippets', 'User Intent Match', 'Backlink Authority', 'Freshness', 'Structure (Schema)'],
+                    labels: ['Keyword Stuffing', 'Code Snippets', 'User Intent', 'Backlinks', 'Freshness', 'Structured Data'],
                     datasets: [{
-                        label: 'Traditional SEO',
-                        data: [90, 20, 50, 95, 40, 60],
+                        label: 'Old School SEO',
+                        data: [90, 20, 40, 95, 40, 50],
                         fill: true,
-                        backgroundColor: 'rgba(168, 162, 158, 0.2)',
+                        backgroundColor: 'rgba(168, 162, 158, 0.2)', // Stone
                         borderColor: '#a8a29e',
-                        pointBackgroundColor: '#a8a29e'
+                        pointBackgroundColor: '#a8a29e',
+                        pointRadius: 3
                     }, {
-                        label: 'AI Retrieval Optimization',
-                        data: [30, 95, 90, 40, 85, 90],
+                        label: 'AI / RAG Optimization',
+                        data: [20, 95, 95, 30, 85, 90],
                         fill: true,
-                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)', // Indigo
                         borderColor: '#4f46e5',
-                        pointBackgroundColor: '#4f46e5'
+                        pointBackgroundColor: '#4f46e5',
+                        pointRadius: 3
                     }]
                 },
                 options: {
@@ -445,10 +496,11 @@
                     scales: {
                         r: {
                             angleLines: { color: '#e5e7eb' },
-                            grid: { color: '#e5e7eb' },
-                            pointLabels: { font: { family: 'Inter', size: 10 } },
+                            grid: { color: '#f3f4f6' },
+                            pointLabels: { font: { family: 'Inter', size: 11, weight: '600' }, color: '#4b5563' },
                             suggestedMin: 0,
-                            suggestedMax: 100
+                            suggestedMax: 100,
+                            ticks: { display: false } // Hide numbers on axis for cleaner look
                         }
                     },
                     plugins: {
@@ -472,30 +524,30 @@
 
             function updateScore() {
                 // Weights: Code density is most important for IDEs
-                const val1 = parseInt(sliders[0].value) * 0.5;
-                const val2 = parseInt(sliders[1].value) * 0.3;
-                const val3 = parseInt(sliders[2].value) * 0.2;
+                const val1 = parseInt(sliders[0].value) * 0.5; // Code
+                const val2 = parseInt(sliders[1].value) * 0.3; // Comparison
+                const val3 = parseInt(sliders[2].value) * 0.2; // Structure
                 
                 const total = Math.round(val1 + val2 + val3);
                 
-                // Update Gauge (Dash array logic: score, 100)
+                // Update Gauge
                 scoreCircle.setAttribute('stroke-dasharray', `${total}, 100`);
                 scoreValue.innerText = `${total}%`;
                 
-                // Update Text
+                // Update Text & Colors
                 if(total < 40) {
-                    recText.innerHTML = "Result: <span class='text-red-600'>Invisible.</span> AI prefers standard docs.";
-                    scoreValue.className = "text-4xl font-bold text-stone-400";
+                    recText.innerHTML = `<p class="font-bold text-red-600">Status: Invisible</p><p class="text-sm text-stone-600 mt-1">Your docs look like marketing pages. The AI ignores them.</p>`;
+                    scoreValue.className = "text-5xl font-extrabold text-stone-400";
                     scoreCircle.classList.add('text-stone-300');
-                    scoreCircle.classList.remove('text-indigo-600', 'text-emerald-500');
+                    scoreCircle.classList.remove('text-indigo-600', 'text-amber-500');
                 } else if (total < 75) {
-                    recText.innerHTML = "Result: <span class='text-amber-600'>Contender.</span> Might appear in 'See also'.";
-                    scoreValue.className = "text-4xl font-bold text-amber-600";
+                    recText.innerHTML = `<p class="font-bold text-amber-600">Status: Contender</p><p class="text-sm text-stone-600 mt-1">Good technical content. Might appear in "Alternative Options".</p>`;
+                    scoreValue.className = "text-5xl font-extrabold text-amber-500";
                     scoreCircle.classList.add('text-amber-500');
-                    scoreCircle.classList.remove('text-stone-300', 'text-indigo-600', 'text-emerald-500');
+                    scoreCircle.classList.remove('text-stone-300', 'text-indigo-600');
                 } else {
-                    recText.innerHTML = "Result: <span class='text-indigo-600'>Top Suggestion.</span> Contextually superior.";
-                    scoreValue.className = "text-4xl font-bold text-indigo-600";
+                    recText.innerHTML = `<p class="font-bold text-indigo-600">Status: Top Suggestion</p><p class="text-sm text-stone-600 mt-1">High code density + clear structure = The AI trusts this source.</p>`;
+                    scoreValue.className = "text-5xl font-extrabold text-indigo-600";
                     scoreCircle.classList.add('text-indigo-600');
                     scoreCircle.classList.remove('text-stone-300', 'text-amber-500');
                 }
